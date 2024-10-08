@@ -15,7 +15,6 @@ server.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views/index.html'));
 });
  
- 
 server.get('/informações', (req, res) => {
     res.sendFile(path.join(__dirname, 'views/informações.html'));
 });
