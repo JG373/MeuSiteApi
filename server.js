@@ -1,43 +1,52 @@
-const express = require('express')
-const server = express()
-const bodyParser = require('body-parser')
-//Importar para ter acesso ao caminho dos arquivos
-const path = require('path')
-//Expor arquivos estáticos..
-server.use(express.static(__dirname + '/public'));
-server.use(express.json()) //Possibilidade de usar JSON
+const express = require('express');
+const server = express();
+const path = require('path');
+ 
+ 
+server.use(express.static(path.join(__dirname, 'public')));
+ 
+server.use(express.static(path.join(__dirname, 'views')));
+ 
+server.use(express.json());
+server.use(express.urlencoded({ extended: true }));
+ 
+ 
+server.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views/index.html'));
+});
+ 
+ 
+server.get('/informações', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views/informações.html'));
+});
+ 
+ 
+server.get('/projeto', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views/projeto.html'));
+});
 
-server.use(bodyParser.urlencoded({ extended: true }))
+server.get('/livro1', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views/livro1.html'));
+});
+server.get('/livro2', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views/livro2.html'));
+});
+server.get('/livro3', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views/livro3.html'));
+});
+server.get('/livro4', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views/livro4.html'));
+});
+server.get('/livro5', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views/livro5.html'));
+});
 
-//EXemplo GET
-server.get('/cadastro', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views/index.html'))
-})
-//Exemplo POST com resposta 401
-server.post('/cadastro', (req, res) => {
-    console.log(req.body)
-    const { email, name } = req.body
-    //CAdastro os dados no banco de dados!
 
-    if (email !== 'muca@email.com') {
-        return res.sendFile(path.join(__dirname, 'views/401.html'))
-    }
-    res.sendFile(path.join(__dirname, 'views/home.html'))
-})
-//Exemplo de retorno JSON
-server.get('/pets', (req, res) => {
-    res.send({
-        name: "Meu gato",
-        idade: "4 anos",
-        peso: "300kg"
-    })
-})
-//Middleware para rotas não encontradas!
 server.use(function (req, res, next) {
     console.log('aqui');
     return res.sendFile(path.join(__dirname, 'views/404.html'))
 })
-
+ 
 server.listen(3000, () => {
-    console.log("servidor no ar...")
-})
+    console.log('Servidor rodando na porta 3000');
+});
